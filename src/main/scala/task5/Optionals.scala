@@ -23,15 +23,23 @@ object Optionals:
       case Just(a) => Just(f(a))
       case _       => Empty()
 
+    def filter(opt: OptionalInt)(f: Int => Boolean): OptionalInt = opt match
+      case Just(a) if f(a) => Just(a)
+      case _ => Empty()
+
 @main def tryOptionals: Unit =
   import Optionals.* // to work with Optionals (to see OptionalInt type)
   import OptionalInt.* // to directly access algorithms
 
   val s1: OptionalInt = Just(1)
   val s2: OptionalInt = Empty()
+  val s3: OptionalInt = Just(10)
 
   println(s1) // Some(1)
   println(isEmpty(s1)) // false
   println(orElse(s1, 0)) // 1
   println(orElse(s2, 0)) // 0
   println(map(s1)(i => i + 1)) // Some("val: 1")
+  println(filter(s1)(_ > 2))
+  println(filter(s2)(_ > 2))
+  println(filter(s3)(_ > 2))
